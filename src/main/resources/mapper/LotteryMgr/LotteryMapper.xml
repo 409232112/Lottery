@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wyc.lotterymgr.dao.LotteryDao">
+    <insert id="insert"  parameterType="java.util.HashMap">
+        insert into t_lottery
+            (id,lottery_name,lottery_date,lottery_address,created_user_id,created_time)
+        values
+            (#{id},#{lottery_name},#{lottery_date},#{lottery_address},#{created_user_id},now())
+    </insert>
+
+    <update id="update" parameterType="java.util.HashMap">
+        update t_lottery
+        <set>
+            <if test="lottery_name != null"> lottery_name=#{lottery_name},</if>
+            <if test="lottery_date != null"> lottery_date=#{lottery_date},</if>
+            <if test="lottery_address != null"> lottery_address=#{lottery_address},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <delete id="delete">
+        delete from t_lottery where id=#{idd}
+    </delete>
+
+    <delete id="deletePrizeBylotteryId">
+        delete from t_prize where t_lottery_id=#{id}
+    </delete>
+
+    <delete id="deleteUserBylotteryId">
+        delete from t_lottery_user where t_lottery_id=#{id}
+    </delete>
+
+
+    <select id="find" resultType="java.util.HashMap">
+        select
+            a.id,a.lottery_name,a.lottery_date,a.lottery_address,a.total_join,IFNULL(b.prize_total_count,0) prize_total_count,
+            case a.current_prize
+            when 'no_start' then '未开始'
+            when 'end' then '已结束'
+            else a.current_prize
+            end current_prize
+        from(
+            select
+                a.*,
+                IFNULL(b.prize_name,a.current_prize_id) current_prize
+            from
+              t_lottery a
+            left join
+                t_prize b
+            on a.current_prize_id = b.id
+        )a
+        LEFT JOIN
+          (select sum(prize_count) prize_total_count,t_lottery_id from t_prize GROUP BY t_lottery_id) b
+        on
+          a.id = b.t_lottery_id
+        where 1=1
+            <if test="lottery_name != null and lottery_name !=''" > and lottery_name like "%"#{lottery_name}"%"</if>
+        order by a.created_time
+    </select>
+
+    <select id="getLotteryUserNum" resultType="java.util.HashMap">
+        select id,username,lottery_num from t_lottery_user where t_lottery_id = #{lottery_id} and username=#{username}
+    </select>
+
+
+    <insert id="insertLotteryUser"  parameterType="java.util.HashMap">
+         insert into t_lottery_user
+	        (id,t_lottery_id,username,lottery_num,decide_t_prize_id)
+        select
+	        id,t_lottery_id,username,lottery_num,decide_t_prize_id
+        FROM
+        (
+            select
+                #{id} id,
+                #{lottery_id} t_lottery_id,
+                #{username} username,
+                #{decide_t_prize_id} decide_t_prize_id,
+                IfNULL(max(lottery_num)+1,1) lottery_num
+            from
+              t_lottery_user
+            where
+              t_lottery_id = #{lottery_id}
+            for update
+          ) a
+
+    </insert>
+
+
+    <update id="addLotteryTotalJoin" parameterType="java.lang.String">
+        update t_lottery
+        set total_join = total_join+1
+        where id=#{lotteryId}
+    </update>
+
+    <update id="subLotteryTotalJoin" parameterType="java.lang.String">
+        update t_lottery
+        set total_join = total_join-1
+        where id=#{lotteryId}
+    </update>
+
+    <insert id="addPrize" parameterType="java.util.List">
+        insert into t_prize
+        (id,t_lottery_id,prize_name,prize_count,award,seq)
+        values
+        <foreach collection="datas" item="data" separator=",">
+            (#{data.id},#{data.lottery_id},#{data.prize_name},#{data.prize_count},#{data.award},#{data.seq})
+        </foreach>
+    </insert>
+
+    <update id="updatePrize"  parameterType="java.util.HashMap">
+        update t_prize
+          set prize_name = #{prize_name},prize_count = #{prize_count},award = #{award},seq = #{seq}
+        where id=#{id}
+    </update>
+
+    <delete id="deletePrize">
+        delete from t_prize where id=#{id}
+    </delete>
+
+    <update id="deleteDecidePrize">
+        update t_lottery_user
+          set decide_t_prize_id = null
+        where decide_t_prize_id=#{prize_id}
+    </update>
+
+
+    <select id="findPrize" resultType="java.util.HashMap">
+        select * from t_prize where t_lottery_id = #{lottery_id} order by seq
+    </select>
+
+
+
+
+    <select id="findAllLottery" resultType="java.util.HashMap">
+        select id,lottery_name from t_lottery order by created_time
+    </select>
+
+
+    <select id="findDecide" resultType="java.util.HashMap">
+        select
+          a.id,a.t_lottery_id,a.username,a.lottery_num,b.prize_name
+        from
+          t_lottery_user a,
+					t_prize b
+        where
+					a.decide_t_prize_id = b.id
+          and a.t_lottery_id = #{t_lottery_id}
+        <if test="decide_t_prize_id != null and decide_t_prize_id !=''" > and a.decide_t_prize_id  = #{decide_t_prize_id}</if>
+        order by b.seq,a.username
+    </select>
+
+    <select id="findUnDecide" resultType="java.util.HashMap">
+        select
+          id,t_lottery_id,username,lottery_num
+        from
+          t_lottery_user
+        where
+          t_lottery_id = #{t_lottery_id}
+        and decide_t_prize_id is null and t_prize_id is null
+        <if test="username != null and username !=''" > and username like "%"#{username}"%"</if>
+        order by lottery_num
+    </select>
+
+    <select id="findJoin" resultType="java.util.HashMap">
+        select
+          id,t_lottery_id,username,lottery_num
+        from
+          t_lottery_user
+        where
+          t_lottery_id = #{lottery_id}
+        order by lottery_num
+    </select>
+
+    <select id="findWinUser" resultType="java.util.HashMap">
+        select
+          a.id,a.t_lottery_id,a.username,a.lottery_num,b.prize_name
+        from
+          t_lottery_user a,
+          t_prize b
+        where
+          a.t_lottery_id = #{lottery_id}
+        and  a.t_prize_id = b.id
+        and a.t_prize_id is not null
+        <if test="prize_id != null and prize_id !=''" > and a.t_prize_id  = #{prize_id}</if>
+        order by b.seq,a.lottery_num
+    </select>
+
+
+
+
+
+
+    <update id="setDecide"  parameterType="java.util.HashMap">
+        update t_lottery_user
+          set decide_t_prize_id = #{decide_t_prize_id}
+        where id=#{id}
+    </update>
+
+    <update id="setUnDecide"  parameterType="java.util.HashMap">
+        update t_lottery_user
+          set decide_t_prize_id = null
+        where id=#{id}
+    </update>
+
+    <select id="getLotteryUserNumForWeb" resultType="java.util.HashMap">
+        select id,username,lottery_num from t_lottery_user where t_lottery_id = #{lotteryId} and t_prize_id is null
+    </select>
+
+    <select id="findPrizeForWeb" resultType="java.util.HashMap">
+    SELECT
+	a.id,
+	a.prize_name,
+	a.prize_count,
+	b.lottery_num
+    FROM
+        t_prize a
+    left join
+      (select t_prize_id,group_concat(lottery_num SEPARATOR ',') as lottery_num from (select * from t_lottery_user where t_lottery_id =  #{lottery_id} and t_prize_id is not null ) a group by t_prize_id) b
+    on b.t_prize_id = a.id
+    WHERE
+        a.t_lottery_id =  #{lottery_id}
+    order by seq DESC
+    </select>
+
+    <update id="resetLottery"  parameterType="java.util.HashMap">
+        update t_lottery_user
+        set t_prize_id = null
+        where t_lottery_id=#{lotteryId}
+    </update>
+
+    <update id="resetCurrentPrize"  parameterType="java.util.HashMap">
+        update t_lottery
+          set current_prize_id = 'no_start'
+        where id=#{lotteryId}
+    </update>
+
+
+    <update id="setUserPrize"  parameterType="java.util.HashMap">
+        update t_lottery_user
+        set t_prize_id = #{t_prize_id}
+        where id=#{id}
+    </update>
+
+    <update id="setCurrentPrize"  parameterType="java.util.HashMap">
+        update t_lottery
+          set current_prize_id = #{currentPrizeId}
+        where id=#{lotteryId}
+    </update>
+
+
+    <select id="selectCurrentPrize"  parameterType="java.util.HashMap" resultType="java.lang.String">
+        select current_prize_id from t_lottery  where id=#{lotteryId}
+    </select>
+
+
+    <select id="selectDecideNum"  resultType="java.util.HashMap">
+        select
+          decide_t_prize_id,group_concat(lottery_num SEPARATOR ',') as lottery_num
+        from
+          (select * from t_lottery_user where t_lottery_id = #{lotteryId} and decide_t_prize_id is not null and t_prize_id IS  NULL ) a
+        group by decide_t_prize_id
+    </select>
+
+
+    <delete id="deleteUser">
+        delete from t_lottery_user where id=#{id}
+    </delete>
+
+
+    <insert id="insertImg"  parameterType="java.util.HashMap">
+        insert into t_file_img
+        (id,comments,file_name,file_path,created_time)
+        values
+        (#{id},#{comments},#{file_name},#{file_path},now())
+    </insert>
+
+    <update id="updateImg" parameterType="java.util.HashMap">
+        update t_file_img
+        <set>
+            <if test="comments != null">comments=#{comments},</if>
+            <if test="file_name != null">file_name=#{file_name},</if>
+            <if test="file_path != null">file_path=#{file_path},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <delete id="deleteImg">
+        delete from t_file_img where id=#{id}
+    </delete>
+
+    <select id="findImg" resultType="java.util.HashMap">
+        select
+            id,comments,file_name,file_name file ,file_path, case is_use when '1' then '是' when '0' then  '否' end as is_use,
+            DATE_FORMAT(created_time, '%Y-%m-%d %H:%i:%s') created_time
+        from
+            t_file_img
+        order by
+            created_time
+    </select>
+
+    <select id="getFilePath" resultType="java.lang.String">
+        select
+        file_path
+        from
+        t_file_img
+        where id = #{id}
+    </select>
+
+
+    <update id="setImgUseNull">
+        update t_file_img set is_use ='0'
+    </update>
+
+    <update id="setImgUse">
+        update t_file_img set is_use ='1' where id=#{id}
+    </update>
+
+
+    <select id="selectUseImg" resultType="java.lang.String">
+        select
+          file_path
+        from
+          t_file_img
+        where is_use = '1' limit 1
+    </select>
+</mapper>

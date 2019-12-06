@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form</title>
+    <link rel="stylesheet" type="text/css" href="../css/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/core.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icon.css" />
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src='../js/core.js'> </script>
+    <script type="text/javascript" src="js/LotteryDecide.js"></script>
+</head>
+<body>
+
+    <div class="easyui-layout" fit="true">
+
+        <div data-options="region:'west',border:false,split:true"  style="width: 840px" >
+            <div class="easyui-layout" fit="true" >
+                <div data-options="region:'north',title:'奖项信息查询',split:true" style="height:130px">
+
+                    <div class="panel-header">
+                        <div id="toolbar" >
+                            <a id="btn_query" class="easyui-linkbutton" iconCls="icon-search" plain="true">查询</a>
+                            <a id="btn_refresh" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a>
+                        </div>
+                    </div>
+
+                    <form id="lottery_form">
+                        <table class="form-table" >
+                            <tr>
+                                <td>抽奖名称:</td>
+                                <td><input id="lottery_id" name="lottery_id" class="easyui-combobox"  style="width:250px;" data-options="editable:false,panelHeight:'auto',valueField:'value',textField:'text'"/>  </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                </div>
+
+                <div data-options="region:'center',title:'奖项信息列表',split:true,border:false">
+                    <table id="prize_grid"  data-options="
+                        url:'lottery/findPrize',
+                        method: 'post',
+                        border:false,
+                        idField:'id',
+                        fit:true,
+                        singleSelect:true,
+                        columns:[[
+                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
+                            {title:'奖项名称',field:'prize_name',width:100,align:'center',editor:'text'},
+                            {title:'奖品',field:'award',width:350,align:'center',editor:'text'},
+                            {title:'奖项数量',field:'prize_count',width:80,align:'center',editor:'numberbox'},
+                             {field:'handle',title:'操作',width:300,align:'center',formatter:handle}
+                        ]]
+                    ">
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div data-options="region:'center',split:true" >
+            <div class="easyui-layout" fit="true" >
+
+                <div data-options="region:'north',title:'已内定人员',split:true,border:false" style="height:300px" >
+                    <table id="decide_grid"  data-options="
+                        url:'lottery/findDecide',
+                        method: 'post',
+                        border:false,
+                        idField:'id',
+                        fit:true,
+                        singleSelect:true,
+                        rownumbers : true,
+                        fitColumns : true,
+                        columns:[[
+                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
+                            {title:'T_LOTTERY_ID',field:'t_lottery_id',width:80,align:'center',hidden:'true'},
+                            {title:'姓名',field:'username',width:100,align:'center',editor:'text'},
+                            {title:'抽奖号码',field:'lottery_num',width:300,align:'center',editor:'text'},
+                            {title:'内定奖项',field:'prize_name',width:300,align:'center',editor:'text'}
+                        ]],
+                        toolbar: [
+                            { text: '取消内定', iconCls: 'icon-standard-delete', handler: function () {setUnDecide()} }
+                        ]
+                    ">
+                    </table>
+                </div>
+
+                <div data-options="region:'center',title:'未内定人员',split:true,border:false">
+                    <div id="tb" style="padding:3px;display: none">
+                        <a id="setDecide" class="easyui-linkbutton" data-options="iconCls:'icon-standard-add',plain:true">设为内定</a>|
+                        <input id="username" class="easyui-searchbox"  data-options="prompt:'搜索姓名'" searcher="searchData">
+                    </div>
+                    <table id="undecide_grid" toolbar="#tb"   data-options="
+                        url:'lottery/findUnDecide',
+                        method: 'post',
+                        border:false,
+                        idField:'id',
+                        fit:true,
+                        singleSelect:true,
+                        pagination:true,
+                        pageSize : 20,
+                        queryParams : {},
+                        rownumbers : true,
+                        fitColumns : true,
+                        pageList:[20,50,100],
+                        columns:[[
+                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
+                            {title:'ID',field:'t_lottery_id',width:80,align:'center',hidden:'true'},
+                            {title:'姓名',field:'username',width:100,align:'center',editor:'text'},
+                            {title:'抽奖号码',field:'lottery_num',width:350,align:'center',editor:'text'}
+                        ]]
+                    ">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

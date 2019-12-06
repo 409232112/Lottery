@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wyc.systemmgr.dao.UserDao">
+    <insert id="insert"  parameterType="com.wyc.systemmgr.entity.User">
+        insert into sys_user
+            (id,name,username,password)
+        values
+            (#{id},#{name},#{username},#{password})
+    </insert>
+
+    <update id="update" parameterType="com.wyc.systemmgr.entity.User">
+        update sys_user
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="username != null">username=#{username},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <delete id="delete">
+        delete from sys_user where id=#{id}
+    </delete>
+
+    <select id="find" resultType="java.util.HashMap">
+        select
+            a.id,a.name,a.username
+        from
+            sys_user a
+        where 1=1
+            <if test="name != null and name !=''" > and name like "%"#{name}"%"</if>
+    </select>
+
+
+    <select id="findUserByUsername" resultType="java.util.HashMap">
+        select
+            a.id,
+            a.name,
+            a.username,
+            a.password
+        from
+            sys_user a
+        where username = #{username}
+    </select>
+
+    <update id="changePassword" parameterType="java.util.HashMap">
+        update sys_user set password = #{password} where id = #{userId}
+    </update>
+
+</mapper>

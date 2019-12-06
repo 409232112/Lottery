@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form</title>
+    <link rel="stylesheet" type="text/css" href="../css/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/core.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icon.css" />
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src='../js/core.js'> </script>
+    <script type="text/javascript" src="js/LotteryQuery.js"></script>
+</head>
+<body>
+
+    <div class="easyui-layout" fit="true">
+        <div data-options="region:'west',border:false,split:true"  style="width: 1000px" >
+            <div class="easyui-layout" fit="true" >
+                <div data-options="region:'north',title:'抽奖信息列表',split:true,border:false" style="height:300px;">
+                    <table id="lottery_grid"   data-options="
+                    fit:true,
+                    singleSelect :true,
+                    striped : true,
+                    method : 'post',
+                    url : 'lottery/find',
+                    pagination:true,
+                    pageSize : 20,
+                    queryParams : {},
+                    rownumbers : true,
+                    pageList:[20,50,100],
+                    fitColumns : true,
+                    columns:[[
+                        {field:'id',title:'ID',width:80,align:'center',hidden:'true'},
+                        {field:'lottery_name',title:'抽奖名称',width:250,align:'center'},
+                        {field:'lottery_date',title:'抽奖日期',width:120,align:'center'},
+                        {field:'lottery_address',title:'抽奖地址',width:400,align:'center'},
+                        {field:'total_join',title:'参与人数',width:100,align:'center'},
+                        {field:'prize_total_count',title:'奖品数量',width:100,align:'center'},
+                        {field:'current_prize',title:'当前抽奖阶段',width:120,align:'center'}
+                    ]],
+                    toolbar: [
+                        { text: '刷新', iconCls: 'icon-reload', handler: function () {refresh()} }
+                    ]
+                ">
+                    </table>
+                </div>
+
+                <div data-options="region:'center',title:'参与抽奖人员',split:true,border:false">
+                    <table id="join_grid"   data-options="
+                        url:'lottery/findJoin',
+                        method: 'post',
+                        border:false,
+                        idField:'id',
+                        fit:true,
+                        singleSelect:true,
+                        pagination:true,
+                        pageSize : 20,
+                        queryParams : {},
+                        rownumbers : true,
+                        fitColumns : true,
+                        pageList:[20,50,100],
+                        columns:[[
+                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
+                            {title:'ID',field:'t_lottery_id',width:80,align:'center',hidden:'true'},
+                            {title:'姓名',field:'username',width:100,align:'center',editor:'text'},
+                            {title:'抽奖号码',field:'lottery_num',width:350,align:'center',editor:'text'}
+                        ]],
+                        toolbar: [
+                            { text: '删除', iconCls: 'icon-standard-delete', handler: function () {deleteUser()} }
+                        ]
+                    ">
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div data-options="region:'center',split:true" >
+            <div class="easyui-layout" fit="true" >
+
+                <div data-options="region:'north',title:'奖项信息列表',split:true" style="height:300px;">
+                    <table id="prize_grid"   data-options="
+                        url:'lottery/findPrize',
+                        method: 'post',
+                        border:false,
+                        idField:'id',
+                        fit:true,
+                        singleSelect:true,
+                        fitColumns : true,
+                        columns:[[
+                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
+                            {title:'奖项名称',field:'prize_name',width:100,align:'center',editor:'text'},
+                            {title:'奖项数量',field:'prize_count',width:80,align:'center',editor:'numberbox'},
+                            {title:'奖品',field:'award',width:350,align:'center',editor:'text'}
+
+                        ]]
+                    ">
+                    </table>
+                </div>
+
+
+                <div data-options="region:'center',title:'中奖人员信息列表',split:true,border:false">
+                    <table id="win_grid"  data-options="
+                        url:'lottery/findWinUser',
+                        method: 'post',
+                        border:false,
+                        idField:'id',
+                        fit:true,
+                        singleSelect:true,
+                        rownumbers : true,
+                        fitColumns : true,
+                        columns:[[
+                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
+                            {title:'ID',field:'t_lottery_id',width:80,align:'center',hidden:'true'},
+                            {title:'姓名',field:'username',width:150,align:'center',editor:'text'},
+                            {title:'中奖号码',field:'lottery_num',width:100,align:'center',editor:'text'},
+                            {title:'抽中奖项',field:'prize_name',width:200,align:'center',editor:'text'}
+                        ]]
+                    ">
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

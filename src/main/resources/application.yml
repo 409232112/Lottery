@@ -1,0 +1,36 @@
+server:
+  port: 9999
+  ip: www.yuanyuanlian.cn
+  servlet:
+    session:
+      timeout: 43200
+
+spring:
+  datasource:
+    username: root
+    password: Root123@
+    url: jdbc:mysql://127.0.0.1:3306/lottery?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  thymeleaf:
+    prefix: classpath:/templates/
+  aop:
+    auto: true
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*/*Mapper.xml
+  type-aliases-package: com.wyc.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+filesDir:
+  uploadFileDir: /project/files/
+  staticFileDir: /files/**
+
+
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>抽奖信息填写</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fort.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src='../js/core.js'> </script>
+    <script type="text/javascript" src="js/LotteryUser.js"></script>
+    <style>
+        .nav li.current a{
+            background-color: #009DFF;
+            color: #fff;
+            padding: 10px;
+        }
+        .nav a {
+            margin: 5px;
+            color: #333;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="form-wrapper">
+    <div class="top">
+        <div class="colors">
+        </div>
+    </div>
+    <div>
+        <span id="lottery_name" style="font-size: 20px"></span>
+    </div>
+    <form id="user_form" method="post">
+        <div class="form">
+            <div class="form-item">
+
+                <input id="username" type="username" name="username" required="required" placeholder="请填写真实姓名，否则视为无效" autocomplete="off">
+            </div>
+            <div class="button-panel">
+                <input type="button" id="btn_submit" class="button"  value="确定">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="footer-banner" style="width:728px; margin:200px auto 0"></div>
+
+</body>
+</html>

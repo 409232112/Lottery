@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wyc.systemmgr.dao.ModelDao">
+    <insert id="insert"  parameterType="com.wyc.systemmgr.entity.Model">
+        insert into sys_model
+            (id,text,url,iconCls,level,parent_id,seq,comments,created_user_id,created_time)
+        values
+            (#{id},#{text},#{url},#{iconCls},#{level},#{parent_id},#{seq},#{comments},#{created_user_id},now())
+    </insert>
+
+    <update id="update" parameterType="com.wyc.systemmgr.entity.Model">
+        update sys_model
+
+        <set>
+            <if test="text != null">text=#{text},</if>
+            <if test="url != null">url=#{url},</if>
+            <if test="iconCls != null">iconCls=#{iconCls},</if>
+            <if test="seq != null">seq=#{seq},</if>
+            <if test="comments != null">comments=#{comments},</if>
+            update_time = now(),
+            update_user_id = #{update_user_id}
+        </set>
+
+        where id=#{id}
+    </update>
+
+    <delete id="delete">
+        delete from sys_model where id=#{id}
+    </delete>
+
+    <select id="hasChildren" resultType="java.lang.Integer">
+        select count(1) from sys_model where parent_id = #{id}
+    </select>
+
+    <select id="find" resultType="java.util.HashMap">
+        select
+            id,text,url,iconCls,level,parent_id,seq,comments,created_user_id,created_time,update_time,update_user_id,
+            (select name from sys_user where id = a.created_user_id) created_user_name,
+            (select name from sys_user where id = a.update_user_id) update_user_name
+        from
+            sys_model a
+        where 1=1
+            <if test="text != null and text !=''" > and text like "%"#{text}"%"</if>
+            <if test="url != null and url !=''"> and url like "%"#{url}"%"</if>
+        order by level,seq
+    </select>
+
+    <select id="findByUserId" resultType="java.util.HashMap">
+        SELECT
+            a.id,
+            a.text,
+            a.url,
+            a.iconCls,
+            a. LEVEL,
+            a.parent_id,
+            a.seq,
+            if(b.user_id is null,'false','true') checked
+        FROM
+            sys_model a
+        left join
+            sys_user_model b
+        on
+            b.model_id = a.id
+            and b.user_id =#{userId}
+        order by level,seq
+    </select>
+
+    <insert id="insertUserModel" parameterType="java.util.List">
+        insert into sys_user_model
+        (user_id,model_id)
+        values
+        <foreach collection="datas" item="data" separator=",">
+            (#{data.userId},#{data.modelId})
+        </foreach>
+    </insert>
+
+    <delete id="delUserModel">
+        delete from sys_user_model where user_id=#{userId}
+    </delete>
+
+
+    <select id="findForMenu" resultType="java.util.HashMap">
+        SELECT DISTINCT
+        id,text,url,iconCls,LEVEL,parent_id,seq
+        FROM
+        (
+            SELECT
+                a.*
+            FROM
+                sys_model a,
+                sys_user_model b
+            WHERE
+                b.model_id = a.id
+                AND b.user_id = #{userId}
+        ) a
+        ORDER BY LEVEL,seq
+    </select>
+
+    <select id="findAllUrl" resultType="java.lang.String">
+       SELECT DISTINCT
+            url
+        from
+            sys_model
+        where
+            url is not null
+            and url !=""
+    </select>
+</mapper>
