@@ -245,4 +245,24 @@ public class LotteryController {
         retData.put("path",path);
         return CommonUtility.constructResultJson("0","操作成功！",retData);
     }
+
+    @PostMapping("/findBlack")
+    public Pagination findBlack(@RequestParam Map<String, Object> param)throws BaseException {
+        PageHelper.startPage(1, 99);
+        List<Map> userList = lotteryService.findBlack(param);
+        Pagination result = PaginationUtil.getPageList(userList);
+        return result;
+    }
+
+    @PostMapping("/setBlack")
+    public String setBlack(@RequestBody Map<String, Object> param)throws BaseException {
+        lotteryService.setBlack(param);
+        return CommonUtility.constructResultJson("0","操作成功！");
+    }
+
+    @PostMapping("/setUnBlack")
+    public String setUnBlack(@RequestBody Map<String, Object> param)throws BaseException {
+        lotteryService.setUnBlack(param);
+        return CommonUtility.constructResultJson("0","操作成功！");
+    }
 }

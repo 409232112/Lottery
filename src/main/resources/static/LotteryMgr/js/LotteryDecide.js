@@ -8,6 +8,11 @@
         setDecide()
     });
 
+    $("#setBlack").click(function(){
+        setBlack()
+    });
+
+
 
     //刷新表格
     $("#btn_refresh").click(function(){
@@ -49,6 +54,13 @@ function query(){
 
     $("#tb").css("display","block");
     $("#decide_grid").datagrid({
+        queryParams: {
+            t_lottery_id:field.getFieldValue("lottery_id")
+        }
+    });
+
+
+    $("#black_grid").datagrid({
         queryParams: {
             t_lottery_id:field.getFieldValue("lottery_id")
         }
@@ -186,5 +198,61 @@ function searchData(value){
 
 
 
+function setBlack() {
+    var data = grid.getCurrentSelectRowData("undecide_grid")
+    if (data == null) {
+        message.warning("请选择一个需要拉黑的人！")
+        return
+    }
+    $.messager.confirm('Confirm','拉黑将无法中奖，是否确定？',function(r) {
+        if (r) {
+            var param = {}
+            param['id'] = data.id
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                url: "lottery/setBlack",
+                data: JSON.stringify(param),
+                success: function (result) {
+                    result = eval("(" + result + ")")
+                    if (result.code == "0") {
+                        message.info(result.message)
+                        $('#black_grid').datagrid('reload');
+                        $('#undecide_grid').datagrid('reload');
+                    } else {
+                        message.info(result.message)
+                    }
+                }
+            });
+        }
+    })
 
+}
+
+function setUnBlack() {
+    var data = grid.getCurrentSelectRowData("black_grid")
+    if (data == null) {
+        message.warning("请选择一个取消拉黑的人！")
+        return
+    }
+    var param = {}
+    param['id'] = data.id
+    $.ajax({
+        type: "POST",
+        contentType: "application/json;charset=UTF-8",
+        url: "lottery/setUnBlack",
+        data: JSON.stringify(param),
+        success: function (result) {
+            result = eval("(" + result + ")")
+            if (result.code == "0") {
+                message.info(result.message)
+                $('#black_grid').datagrid('reload');
+                $('#undecide_grid').datagrid('reload');
+                $('#black_grid').datagrid('unselectAll');
+            } else {
+                message.info(result.message)
+            }
+        }
+    });
+}
 

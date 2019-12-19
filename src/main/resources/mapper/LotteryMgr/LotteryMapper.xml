@@ -160,7 +160,7 @@
           t_lottery_user
         where
           t_lottery_id = #{t_lottery_id}
-        and decide_t_prize_id is null and t_prize_id is null
+        and decide_t_prize_id is null and t_prize_id is null and is_black = "0"
         <if test="username != null and username !=''" > and username like "%"#{username}"%"</if>
         order by lottery_num
     </select>
@@ -328,4 +328,41 @@
           t_file_img
         where is_use = '1' limit 1
     </select>
+
+    <select id="findBlack" resultType="java.util.HashMap">
+        select
+          id,t_lottery_id,username,lottery_num
+        from
+          t_lottery_user
+        where
+          t_lottery_id = #{t_lottery_id}
+        and is_black = "1"
+        order by lottery_num
+    </select>
+
+    <update id="setBlack"  parameterType="java.util.HashMap">
+        update t_lottery_user
+        set is_black = "1"
+        where id=#{id}
+    </update>
+
+    <update id="setUnBlack"  parameterType="java.util.HashMap">
+        update t_lottery_user
+        set is_black = "0"
+        where id=#{id}
+    </update>
+
+    <select id="selectBlack" resultType="java.lang.String">
+        select
+          lottery_num
+        from
+        t_lottery_user
+        where
+        t_lottery_id = #{t_lottery_id}
+        and is_black = "1"
+        order by lottery_num
+    </select>
+
+
+
 </mapper>

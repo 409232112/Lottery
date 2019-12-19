@@ -88,6 +88,13 @@ public interface LotteryDao extends BaseDao {
     String selectUseImg();
 
 
+    List<Map> findBlack(Map param);
+
+    void setBlack(Map param);
+
+    void setUnBlack(Map param);
+
+    List<String> selectBlack(String lotteryId);
 
 
 

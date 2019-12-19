@@ -185,13 +185,18 @@ public class LotteryServiceImpl implements ILotteryService {
             lottery_nums.add(String.valueOf(lotteryUsers.get(i).get("lottery_num")));
         }
 
+        List<String> blackNums = lotteryDao.selectBlack(lotteryId);
+
         String lotteryImg = lotteryDao.selectUseImg();
+
+
         retData.put("lotteryImg",lotteryImg);
         retData.put("currentPrizeId",currentPrizeId);
         retData.put("decideNosMap",decideNosMap);
         retData.put("prizes",prizes);
         retData.put("t_lottery_user_ids",t_lottery_user_ids);
         retData.put("lottery_nums",lottery_nums);
+        retData.put("blackNums",blackNums);
         retData.put("usernames",usernames);
 
         return retData;
@@ -293,4 +298,19 @@ public class LotteryServiceImpl implements ILotteryService {
     }
 
 
+
+    @Override
+    public List<Map> findBlack(Map param){
+        return lotteryDao.findBlack(param);
+    }
+
+    @Override
+    public void setBlack(Map param){
+        lotteryDao.setBlack(param);
+    }
+
+    @Override
+    public void setUnBlack(Map param){
+        lotteryDao.setUnBlack(param);
+    }
 }

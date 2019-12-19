@@ -52,4 +52,11 @@ public interface ILotteryService extends IBaseService {
     void setImgUse(String id);
 
     String selectUseImg();
+
+
+    List<Map> findBlack(Map param);
+
+    void setBlack(Map param);
+
+    void setUnBlack(Map param);
 }

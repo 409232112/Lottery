@@ -56,39 +56,11 @@
                     ">
                     </table>
                 </div>
-            </div>
-        </div>
 
-        <div data-options="region:'center',split:true" >
-            <div class="easyui-layout" fit="true" >
-
-                <div data-options="region:'north',title:'已内定人员',split:true,border:false" style="height:300px" >
-                    <table id="decide_grid"  data-options="
-                        url:'lottery/findDecide',
-                        method: 'post',
-                        border:false,
-                        idField:'id',
-                        fit:true,
-                        singleSelect:true,
-                        rownumbers : true,
-                        fitColumns : true,
-                        columns:[[
-                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
-                            {title:'T_LOTTERY_ID',field:'t_lottery_id',width:80,align:'center',hidden:'true'},
-                            {title:'姓名',field:'username',width:100,align:'center',editor:'text'},
-                            {title:'抽奖号码',field:'lottery_num',width:300,align:'center',editor:'text'},
-                            {title:'内定奖项',field:'prize_name',width:300,align:'center',editor:'text'}
-                        ]],
-                        toolbar: [
-                            { text: '取消内定', iconCls: 'icon-standard-delete', handler: function () {setUnDecide()} }
-                        ]
-                    ">
-                    </table>
-                </div>
-
-                <div data-options="region:'center',title:'未内定人员',split:true,border:false">
+                <div data-options="region:'south',title:'未内定或拉黑人员',split:true,border:false" style="height:450px">
                     <div id="tb" style="padding:3px;display: none">
-                        <a id="setDecide" class="easyui-linkbutton" data-options="iconCls:'icon-standard-add',plain:true">设为内定</a>|
+                        <a id="setDecide" class="easyui-linkbutton" data-options="iconCls:'icon-standard-user-add',plain:true">设为内定</a>
+                        <a id="setBlack" class="easyui-linkbutton" data-options="iconCls:'icon-standard-user-gray',plain:true">拉黑</a>|
                         <input id="username" class="easyui-searchbox"  data-options="prompt:'搜索姓名'" searcher="searchData">
                     </div>
                     <table id="undecide_grid" toolbar="#tb"   data-options="
@@ -110,6 +82,57 @@
                             {title:'姓名',field:'username',width:100,align:'center',editor:'text'},
                             {title:'抽奖号码',field:'lottery_num',width:350,align:'center',editor:'text'}
                         ]]
+                    ">
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div data-options="region:'center',split:true" >
+            <div class="easyui-layout" fit="true" >
+                <div data-options="region:'center',title:'已内定人员',split:true,border:false" >
+                    <table id="decide_grid"  data-options="
+                        url:'lottery/findDecide',
+                        method: 'post',
+                        border:false,
+                        idField:'id',
+                        fit:true,
+                        singleSelect:true,
+                        rownumbers : true,
+                        fitColumns : true,
+                        columns:[[
+                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
+                            {title:'T_LOTTERY_ID',field:'t_lottery_id',width:80,align:'center',hidden:'true'},
+                            {title:'姓名',field:'username',width:100,align:'center',editor:'text'},
+                            {title:'抽奖号码',field:'lottery_num',width:300,align:'center',editor:'text'},
+                            {title:'内定奖项',field:'prize_name',width:300,align:'center',editor:'text'}
+                        ]],
+                        toolbar: [
+                            { text: '取消内定', iconCls: 'icon-standard-user-delete', handler: function () {setUnDecide()} }
+                        ]
+                    ">
+                    </table>
+                </div>
+
+                <div data-options="region:'south',title:'已拉黑人员',split:true,border:false" style="height:450px" >
+                    <table id="black_grid"   data-options="
+                        url:'lottery/findBlack',
+                        method: 'post',
+                        border:false,
+                        idField:'id',
+                        fit:true,
+                        singleSelect:true,
+                        rownumbers : true,
+                        fitColumns : true,
+                        columns:[[
+                            {title:'ID',field:'id',width:80,align:'center',hidden:'true'},
+                            {title:'ID',field:'t_lottery_id',width:80,align:'center',hidden:'true'},
+                            {title:'姓名',field:'username',width:100,align:'center',editor:'text'},
+                            {title:'抽奖号码',field:'lottery_num',width:350,align:'center',editor:'text'}
+                        ]],
+                        toolbar: [
+                            { text: '取消拉黑', iconCls: 'icon-standard-user-delete', handler: function () {setUnBlack()} }
+                        ]
                     ">
                     </table>
                 </div>
