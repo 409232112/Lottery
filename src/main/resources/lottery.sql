@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50646
 File Encoding         : 65001
 
-Date: 2019-12-06 10:42:13
+Date: 2019-12-19 15:41:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -117,8 +117,9 @@ CREATE TABLE `t_file_img` (
 -- ----------------------------
 -- Records of t_file_img
 -- ----------------------------
-INSERT INTO `t_file_img` VALUES ('70aabc375d8f4c9d8ddb74fa92a74fbd', '鼠年背景', '2020.jpg', '2b9a63470a994978ace37a315a752212.jpg', '2019-12-06 09:43:54', '1');
-INSERT INTO `t_file_img` VALUES ('773a9dedfd47448599d2c0ba560ddefe', '原始背景图', 'bg.jpg', '22a00699ee344e869145ebea82909cf0.jpg', '2019-12-06 07:37:50', '0');
+INSERT INTO `t_file_img` VALUES ('03f575fcc0c149f7b73ca3dcb1765bed', '', 'WechatIMG192.png', 'acd282246c3345a59ceb87f9856407cc.png', '2019-12-06 11:54:59', '1');
+INSERT INTO `t_file_img` VALUES ('70aabc375d8f4c9d8ddb74fa92a74fbd', '鼠年背景', '2020.jpg', '2b9a63470a994978ace37a315a752212.jpg', '2019-12-06 09:43:54', '0');
+INSERT INTO `t_file_img` VALUES ('773a9dedfd47448599d2c0ba560ddefe', '原始背景图', 'WechatIMG191.png', 'd2a49e45765d4754b1b6bc9409c8c14e.png', '2019-12-06 07:37:50', '0');
 
 -- ----------------------------
 -- Table structure for t_lottery
@@ -139,7 +140,7 @@ CREATE TABLE `t_lottery` (
 -- ----------------------------
 -- Records of t_lottery
 -- ----------------------------
-INSERT INTO `t_lottery` VALUES ('873cd1c0c6bb45f2b9fa1e98e2b422e2', '24小时物流年会盛典', '2020-01-09', '成都市武侯区宽亭酒楼3楼', '19', '52d995e1502e42a9bf117d458917f67a', '2019-12-05 14:46:41', 'no_start');
+INSERT INTO `t_lottery` VALUES ('873cd1c0c6bb45f2b9fa1e98e2b422e2', '24小时物流年会盛典', '2020-01-10', '成都市武侯区宽亭酒楼3楼', '19', '52d995e1502e42a9bf117d458917f67a', '2019-12-05 14:46:41', 'no_start');
 
 -- ----------------------------
 -- Table structure for t_lottery_user
@@ -152,6 +153,7 @@ CREATE TABLE `t_lottery_user` (
   `lottery_num` int(8) DEFAULT NULL,
   `t_prize_id` varchar(32) DEFAULT NULL COMMENT '中奖的ID',
   `decide_t_prize_id` varchar(32) DEFAULT NULL COMMENT '内定的奖品ID',
+  `is_black` varchar(4) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_lottery_id` (`t_lottery_id`,`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -159,25 +161,25 @@ CREATE TABLE `t_lottery_user` (
 -- ----------------------------
 -- Records of t_lottery_user
 -- ----------------------------
-INSERT INTO `t_lottery_user` VALUES ('1b2f6f03085a48b69ab36fc4d2c875b1', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '张波', '1', null, null);
-INSERT INTO `t_lottery_user` VALUES ('3328929ae78643b1aea648093d7f2408', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '马会', '9', null, 'b5c67c3133f64349b43b25b320d20015');
-INSERT INTO `t_lottery_user` VALUES ('3aa14d39852c44f4974575723988177a', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '谢婷', '8', null, 'b5c67c3133f64349b43b25b320d20015');
-INSERT INTO `t_lottery_user` VALUES ('3cbd47d25ea346e698a86ddb5af60e04', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '谢琴', '18', null, null);
-INSERT INTO `t_lottery_user` VALUES ('5647ff8b4d1b41d88a25ebdb3437ee4d', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '李奕杉', '14', null, null);
-INSERT INTO `t_lottery_user` VALUES ('6491f94547c34fddb8dcfe43d3ac652d', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '杨丽娜', '16', null, null);
-INSERT INTO `t_lottery_user` VALUES ('6c017596338d4991aeee8606c0a30c94', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '罗建', '11', null, null);
-INSERT INTO `t_lottery_user` VALUES ('7e9e8bda205840af8ff2e46f7a58f603', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '程华蓉', '7', null, null);
-INSERT INTO `t_lottery_user` VALUES ('7fce73b104cb4e7aaf71c2835961be3c', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '赵泽燕', '15', null, null);
-INSERT INTO `t_lottery_user` VALUES ('8a935b70c5524c6a9bb85485a172f524', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '蔡雪', '6', null, 'b5c67c3133f64349b43b25b320d20015');
-INSERT INTO `t_lottery_user` VALUES ('8f904f9116c248a0a206972025fc9e6c', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '胡森', '10', null, null);
-INSERT INTO `t_lottery_user` VALUES ('b361c320743943baa1f11ab7cc9e8e21', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '王媛媛', '2', null, null);
-INSERT INTO `t_lottery_user` VALUES ('c2b96d173f19462eb5a5c0388c5aaf86', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '辜杰', '12', null, null);
-INSERT INTO `t_lottery_user` VALUES ('d233b1af33604ebd9d3c4db8019ae398', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '朱洪籼', '5', null, null);
-INSERT INTO `t_lottery_user` VALUES ('d2741739b95b4a1d9e4e4f2f1f3fc437', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '彭磊', '4', null, null);
-INSERT INTO `t_lottery_user` VALUES ('dd80347233dd47a7a792e68bc82bcd59', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '程华玉', '19', null, null);
-INSERT INTO `t_lottery_user` VALUES ('e47f4ae7e6f44a66b33e743b5f2670bb', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '邓荣云', '3', null, null);
-INSERT INTO `t_lottery_user` VALUES ('eb0ab2e0e6b34ee5b69cd6ac852e1f32', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '朱倩', '17', null, null);
-INSERT INTO `t_lottery_user` VALUES ('f74280d27ea54a4998e81fa61a0e6ccd', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '袁芳', '13', null, null);
+INSERT INTO `t_lottery_user` VALUES ('1b2f6f03085a48b69ab36fc4d2c875b1', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '张波', '1', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('3328929ae78643b1aea648093d7f2408', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '马会', '9', null, 'b5c67c3133f64349b43b25b320d20015', '0');
+INSERT INTO `t_lottery_user` VALUES ('3aa14d39852c44f4974575723988177a', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '谢婷', '8', null, 'b5c67c3133f64349b43b25b320d20015', '0');
+INSERT INTO `t_lottery_user` VALUES ('3cbd47d25ea346e698a86ddb5af60e04', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '谢琴', '18', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('5647ff8b4d1b41d88a25ebdb3437ee4d', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '李奕杉', '14', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('6491f94547c34fddb8dcfe43d3ac652d', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '杨丽娜', '16', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('6c017596338d4991aeee8606c0a30c94', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '罗建', '11', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('7e9e8bda205840af8ff2e46f7a58f603', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '程华蓉', '7', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('7fce73b104cb4e7aaf71c2835961be3c', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '赵泽燕', '15', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('8a935b70c5524c6a9bb85485a172f524', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '蔡雪', '6', null, 'b5c67c3133f64349b43b25b320d20015', '0');
+INSERT INTO `t_lottery_user` VALUES ('8f904f9116c248a0a206972025fc9e6c', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '胡森', '10', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('b361c320743943baa1f11ab7cc9e8e21', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '王媛媛', '2', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('c2b96d173f19462eb5a5c0388c5aaf86', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '辜杰', '12', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('d233b1af33604ebd9d3c4db8019ae398', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '朱洪籼', '5', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('d2741739b95b4a1d9e4e4f2f1f3fc437', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '彭磊', '4', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('dd80347233dd47a7a792e68bc82bcd59', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '程华玉', '19', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('e47f4ae7e6f44a66b33e743b5f2670bb', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '邓荣云', '3', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('eb0ab2e0e6b34ee5b69cd6ac852e1f32', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '朱倩', '17', null, null, '0');
+INSERT INTO `t_lottery_user` VALUES ('f74280d27ea54a4998e81fa61a0e6ccd', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '袁芳', '13', null, null, '0');
 
 -- ----------------------------
 -- Table structure for t_prize
@@ -198,7 +200,7 @@ CREATE TABLE `t_prize` (
 -- ----------------------------
 -- Records of t_prize
 -- ----------------------------
-INSERT INTO `t_prize` VALUES ('2dd207da8657b844a689f388d373091d', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '二等奖', '3', '华为、苹果5手机', null, null, '2');
+INSERT INTO `t_prize` VALUES ('2dd207da8657b844a689f388d373091d', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '二等奖', '3', '冰箱2台 ipad1台', null, null, '2');
 INSERT INTO `t_prize` VALUES ('81d157fbc8215c4d47c870cc36d7fd45', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '特等奖', '1', '奔驰C级轿车', null, null, '4');
-INSERT INTO `t_prize` VALUES ('b5c67c3133f64349b43b25b320d20015', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '一等奖', '1', '华为、苹果顶配手机', null, null, '3');
-INSERT INTO `t_prize` VALUES ('c80aab624c803448c74bace481ff5971', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '三等奖', '3', '家用小电器', null, null, '1');
+INSERT INTO `t_prize` VALUES ('b5c67c3133f64349b43b25b320d20015', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '一等奖', '1', '华为P30 Pro', null, null, '3');
+INSERT INTO `t_prize` VALUES ('c80aab624c803448c74bace481ff5971', '873cd1c0c6bb45f2b9fa1e98e2b422e2', '三等奖', '15', '家用微波炉15台', null, null, '1');
