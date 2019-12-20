@@ -14,6 +14,7 @@ var lottery_nums=[]
 var usernames=[]
 var decideNosMap={}
 var decideNums=[]
+var blackNums;
 var decide_num=null
 
 
@@ -76,6 +77,7 @@ function initData(){
                 $(".bg").attr("style","position:fixed; bottom:0px; left:0px; width:100%; height:100%; text-align:center; background:url(../files/"+lotteryImg+") center top no-repeat; background-size:cover;")
 
                 decideNosMap = data.decideNosMap
+                blackNums = data.blackNums
                 t_lottery_user_ids=data.t_lottery_user_ids
                 lottery_nums=data.lottery_nums
                 usernames=data.usernames
@@ -169,7 +171,8 @@ function start() {
 }
 function setDecide(){
     if(decideNums.length!=0){
-        decide_num =Math.floor(Math.random() * decideNums.length);
+        //decide_num =Math.floor(Math.random() * decideNums.length);
+        decide_num =0
     }
 }
 //循环参加名单
@@ -245,12 +248,17 @@ function stop() {
 //确认号码
 $('#btnqr').on('click', function () {
     $("#"+currentPrize+Number(runTimes)).html($(".num").html())
-    lottery_nums[$.inArray(lottery_nums[num], lottery_nums)] = "";
-    usernames[$.inArray(usernames[num], usernames)] = "";
+
+    //lottery_nums[$.inArray(lottery_nums[num], lottery_nums)] = "";
+    //usernames[$.inArray(usernames[num], usernames)] = "";
+
+
+
     if( decide_num != null){
         decideNums.splice(decide_num,1);
         decide_num = null;
     }
+
 
 
     $("#btnzf").css("display","none")
@@ -267,7 +275,10 @@ $('#btnqr').on('click', function () {
         url: "lottery/lotteryData/setUserPrize",
         data: JSON.stringify(data)
     });
-
+    lottery_nums.splice($.inArray(lottery_nums[num], lottery_nums),1)
+    usernames.splice($.inArray(usernames[num], usernames),1)
+    t_lottery_user_ids.splice(num,1)
+    totalJoin--;
 
     runTimes++;
     if (runTimes >= levelNum) {
@@ -326,7 +337,9 @@ function getListIndexByValue(datas,value){
 
 
 function makeNum(){
+
     decideNums = decideNosMap[currentPrizeId]
+
     if(decideNums == undefined){
         decideNums=[]
     }
@@ -354,24 +367,61 @@ function makeNum(){
             addCount++;
         }
     }
+
     addCount = addCount - decideNums.length
     if(addCount<0){
         addCount=0;
     }
-
     var ramdomList =[]
-    for(var i=0;i<addCount;){
-        var random = Math.floor(Math.random() * totalJoin);
-        if(!ramdomList.includes(random) && !decideNums.includes(lottery_nums[random]) && lottery_nums[random]!="" && !lottery_num_other.includes(lottery_nums[random])){
 
+    var addCountNoBlack = lottery_nums.length - lottery_num_other.length - blackNums.length
+
+
+    if(addCount<=addCountNoBlack){
+        var count = addCount;
+    }else{
+        var count =addCountNoBlack
+    }
+
+
+
+    var m=0;
+    for(var i=0;i<count;){
+        var random = Math.floor(Math.random() * totalJoin);
+        if(!ramdomList.includes(random) && !decideNums.includes(lottery_nums[random]) && lottery_nums[random]!=""  && !lottery_num_other.includes(lottery_nums[random]) && !blackNums.includes(lottery_nums[random])){
             decideNums.push(lottery_nums[random])
             ramdomList.push(random)
-
             i++
         }
         if(i>=totalJoin){
             break
         }
+        m++
+        if(m>100){
+            console.info("break")
+            break
+        }
     }
+    decideNums.sort(randomsort);
+
+
+    for(var i=0;i<addCount - addCountNoBlack;i++){
+
+        var random = Math.floor(Math.random() * blackNums.length);
+        if(blackNums[random]!=undefined){
+            decideNums.push(blackNums[random])
+            blackNums.splice(random,1)
+        }
+    }
+
+
+
+
+    //console.info(decideNums)
 }
+
+function randomsort(a, b) {
+    return Math.random()>.5 ? -1 : 1;
+}
+
 

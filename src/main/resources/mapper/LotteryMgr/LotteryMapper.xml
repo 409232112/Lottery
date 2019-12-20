@@ -160,7 +160,7 @@
           t_lottery_user
         where
           t_lottery_id = #{t_lottery_id}
-        and decide_t_prize_id is null and t_prize_id is null and is_black = "0"
+        and decide_t_prize_id is null and is_black = "0"
         <if test="username != null and username !=''" > and username like "%"#{username}"%"</if>
         order by lottery_num
     </select>
@@ -359,7 +359,7 @@
         t_lottery_user
         where
         t_lottery_id = #{t_lottery_id}
-        and is_black = "1"
+        and is_black = "1" and t_prize_id is null
         order by lottery_num
     </select>
 
