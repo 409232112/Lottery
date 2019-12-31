@@ -201,13 +201,17 @@ function startNum() {
         }
     }
     if (!hasNum) {
-        alert("没有号码可以抽了！！");
+        alert("没有可抽的人了！");
+        $("#btnzf").css("display","none")
+        $("#btnqr").css("display","none")
+        $("#btntxt").css("display","none")
         return false;
     }
     while (lottery_nums[num] == "") {
         num = Math.floor(Math.random() * totalJoin);
 
     }
+
 
 
     $('.num').html(lottery_nums[num]);
@@ -218,12 +222,17 @@ function startNum() {
 
 //停止跳动
 function stop() {
+
     runing = true;
 
     if( decide_num != null){
-        num = getListIndexByValue(lottery_nums,decideNums[decide_num])
+        var num_ = getListIndexByValue(lottery_nums,decideNums[decide_num])
+        if(num_!=undefined){
+            num = num_
+        }
         $('.num').html(lottery_nums[num]);
     }
+
 
 
     $('#btntxt').removeClass('stop').addClass('start');
@@ -390,7 +399,7 @@ function makeNum(){
     var m=0;
     for(var i=0;i<count;){
         var random = Math.floor(Math.random() * totalJoin);
-        if(!ramdomList.includes(random) && !decideNums.includes(lottery_nums[random]) && lottery_nums[random]!=""  && !lottery_num_other.includes(lottery_nums[random]) && !blackNums.includes(lottery_nums[random])){
+        if(!ramdomList.includes(random) && !decideNums.includes(lottery_nums[random]) && lottery_nums[random]!=""   && !lottery_num_other.includes(lottery_nums[random]) && !blackNums.includes(lottery_nums[random])){
             decideNums.push(lottery_nums[random])
             ramdomList.push(random)
             i++
@@ -408,8 +417,10 @@ function makeNum(){
 
     for(var i=0;i<addCount - addCountNoBlack;i++){
         var random = Math.floor(Math.random() * blackNums.length);
-        decideNums.push(blackNums[random])
-        blackNums.splice(random,1)
+        if(blackNums[random]!=undefined){
+            decideNums.push(blackNums[random])
+            blackNums.splice(random,1)
+        }
     }
 
 
