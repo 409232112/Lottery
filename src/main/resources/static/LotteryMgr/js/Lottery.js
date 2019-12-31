@@ -113,13 +113,13 @@ function initPage(){
         var lottery_num = prizes[j].lottery_num;
         var count = lottery_num.length;
         var prize_name =prizes[j].prize_name;
-        var lines = parseInt((count-1)/5)
+        var lines = parseInt((count-1)/8)
 
 
         $("#prize").append('<div class="p1a" style="margin-bottom:'+Number(lines*0.5+0.7)+'rem" id="'+prize_name+'">'+prize_name+'：</div>');
         var lineFlag = 0;
         for(var i=0,m =0;i<count;i++,m++){
-            if(i!=0 && i%5==0){
+            if(i!=0 && i%8==0){
                 prizeLength = prizeLength+0.5;
                 m=0;
                 lineFlag = 1;
@@ -185,7 +185,6 @@ function startNum() {
             url: "lottery/lotteryData/setCurrentPrize/"+currentPrizeId+"/"+getQueryString("lottery")
         });
     }
-
 
 
     runing = false;
@@ -350,10 +349,13 @@ function makeNum(){
             lottery_num = prizes[i].lottery_num
         }
     }
+
+
+
     var lottery_num_other=[]
 
     for(var key in decideNosMap){
-        if (key != currentPrizeId) {
+        if (key != currentPrizeId && (getPrizeOrderById(currentPrizeId)<getPrizeOrderById(key))) {
             lottery_num_other = lottery_num_other.concat(decideNosMap[key])
         }
 
@@ -404,24 +406,29 @@ function makeNum(){
     }
     decideNums.sort(randomsort);
 
-
     for(var i=0;i<addCount - addCountNoBlack;i++){
-
         var random = Math.floor(Math.random() * blackNums.length);
-        if(blackNums[random]!=undefined){
-            decideNums.push(blackNums[random])
-            blackNums.splice(random,1)
-        }
+        decideNums.push(blackNums[random])
+        blackNums.splice(random,1)
     }
 
 
 
 
-    //console.info(decideNums)
+    console.info(decideNums)
 }
 
 function randomsort(a, b) {
     return Math.random()>.5 ? -1 : 1;
+}
+
+function getPrizeOrderById(id){
+    var len = prizes.length;
+    for(var i=0;i<len;i++){
+        if(prizes[i].id==id){
+            return len - i;
+        }
+    }
 }
 
 

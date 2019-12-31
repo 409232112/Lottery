@@ -35,7 +35,7 @@ body{ background:#000;}
 .bg{ }
 .logo{ position:absolute; bottom:1%; width:10%; right:1%; z-index:100;}
 .logo img{ width:100%;}
-.reward{ position:absolute; top:0px; width:10.67%;height:20%;left:20%;}
+.reward{ position:absolute; top:0px; width:10.67%;height:20%;left:27%;}
 .reward .prize{ position:absolute; top:15%; height:3.5rem; width:50%; left:40%; background:red; border:5px solid #ff9c5b;}
 .reward .prize .title { font-size:0.6rem; text-align:center; line-height:1rem; padding-top:5%; font-weight:bold;color:#FFDC35}
 
@@ -47,15 +47,15 @@ body{ background:#000;}
 .totalJoin{ position:absolute; bottom:0%; height:0.5rem; width:13%; left:0%;}
 .totalJoin .title { font-size:0.2rem; text-align:center; font-weight:bold;color:black}
 
-.turntable{ position:absolute; top:2%; width:32.08%; left:33.96%;}
+.turntable{ position:absolute; top:2%; width:32.08%; left:40.96%;}
 .turntable .img{ width:100%; height:100%; border-radius:100%; box-shadow: 0px 0px 30px 20px rgba(0, 0, 0, 0.1)}
 .jz{ position:absolute; top:37.5%; left:25%; width: 50%; margin:0 auto; text-align:center;}
 .jz img{ width:45%; vertical-align:top; padding-left:0%;}
 .jz span{ display:inline-block; width:100%; line-height:1.5rem; color:#f01501; font-size:1.4rem; font-weight:bold; font-family:微软雅黑}
-.btn{ position:absolute; top:52%; width:11.45%; left:44.275%;}
+.btn{ position:absolute; top:52%; width:11.45%; left:51.275%;}
 .start,.stop{ background:url(../images/1_07.png) center top no-repeat; display:block; width:2.2rem; height:0.55rem; background-size:100%; text-align:center; cursor:pointer; line-height:0.52rem; font-size:0.3rem; color:#fff; margin-top:5%; -webkit-transition: all .3s; -moz-transition: all .3s; transition: all .3s;}
 .btn_none{ background:url(../images/1_07a.png) center top no-repeat; background-size:100%;}
-.confirmbox{ width:35%; position:absolute; right:32.5%; bottom:1.5%;}
+.confirmbox{ width:35%; position:absolute; right:25.5%; bottom:1.5%;}
 .confirmbox .bg_img img{ width:100%; position:relative;}
 .confirmbox .box{ position:absolute; top:34%; left:0px; width:100%; text-align:center;color:#2a0901;}
 .confirmbox .box .title{ color:#2a0901; font-size:0.25rem; text-align:center; line-height:0.27rem; font-weight:bold; margin-bottom:1.5%;}
@@ -64,7 +64,7 @@ body{ background:#000;}
 .confirmbox .conbox .span{ margin-right:0px; padding-right:0px; background:none;color:red;font-size:0.6rem; }
 .confirmbox .lucknum span{ display:inline-block; background:url(../images/1_06.png) center right no-repeat; background-size:0.1rem; line-height:0.37rem; padding-right:3.5%; margin-right:3.5%; font-size:0.35rem; font-family:Arial;}
 .confirmbox .lucknum .span{ margin-right:0px; padding-right:0px; background:none;}
-.zjmd{ position:absolute; top:2.5%; height:5rem; width:17%; left:1%; background:#fff; border:3px solid #ff9c5b; border-radius:10px;}
+.zjmd{ position:absolute; top:2.5%; height:5rem; width:27%; left:1%; background:#fff; border:3px solid #ff9c5b; border-radius:10px;}
 .zjmd .title { font-size:0.25rem; text-align:center; line-height:0.36rem; padding-top:5%; font-weight:bold;}
 .zjmd .div1{ margin-top:5%; padding-left:5%; position:relative;}
 .zjmd .div1 .p1a{ margin-bottom:0.7rem; font-size:0.18rem; line-height:0.3rem; font-weight:bold;}
