@@ -16,7 +16,7 @@ public class NotFoundController implements ErrorController {
     @RequestMapping(value=ERROR_PATH)
     public String handleError(HttpServletRequest request){
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        return "/404";
+        return "404";
     }
     @Override
     public String getErrorPath() {

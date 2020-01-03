@@ -1,14 +1,18 @@
 server:
   port: 9999
-  ip: www.yuanyuanlian.cn
   servlet:
     session:
-      timeout: 43200
+      timeout: 3600
+
+visit:
+  prefix: /lottery
+  port:
+  ip: www.wangyuanyuan.site
 
 spring:
   datasource:
     username: root
-    password: Root123@
+    password: root123
     url: jdbc:mysql://127.0.0.1:3306/lottery?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -25,8 +29,6 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*/*Mapper.xml
   type-aliases-package: com.wyc.entity
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 filesDir:
   uploadFileDir: /project/files/

@@ -90,7 +90,7 @@ function initData(){
 
                         currentPrize=prizes[i].prize_name
                         $("#prizename").html(currentPrize);
-                        $(".prize").css("height",Number(currentPrize.length+0.5)+"rem")
+                        $(".prize").css("height",Number(currentPrize.replace("(","").replace(")","").replace(" ","").length+0.5)+"rem")
                         levelNum=prizes[i].prize_count
 
                         currentPrizeId = prizes[i].id
@@ -113,10 +113,12 @@ function initPage(){
         var lottery_num = prizes[j].lottery_num;
         var count = lottery_num.length;
         var prize_name =prizes[j].prize_name;
+        var prize_id = prizes[j].id;
+
         var lines = parseInt((count-1)/8)
 
 
-        $("#prize").append('<div class="p1a" style="margin-bottom:'+Number(lines*0.5+0.7)+'rem" id="'+prize_name+'">'+prize_name+'：</div>');
+        $("#prize").append('<div class="p1a" style="margin-bottom:'+Number(lines*0.5+0.5)+'rem" id="'+prize_id+'">'+prize_name+'：</div>');
         var lineFlag = 0;
         for(var i=0,m =0;i<count;i++,m++){
             if(i!=0 && i%8==0){
@@ -125,16 +127,15 @@ function initPage(){
                 lineFlag = 1;
             }
             if(lineFlag == 1){
-                var top = Number(1*prizeLength+0.5)
+                var top = Number(0.8*prizeLength+0.45)
             }else{
-                var top = Number(1*prizeLength+0.5)
+                var top = Number(0.8*prizeLength+0.4)
             }
-            $("#"+prize_name).append('<span id="'+prize_name+i+'" style="top:'+top+'rem;left:'+Number(m*0.6+0.2)+'rem">'+lottery_num[i]+'</span>');
-
+            $("#"+prize_id).append('<span id="'+prize_id+i+'" style="top:'+top+'rem;left:'+Number(m*0.6+0.2)+'rem">'+lottery_num[i]+'</span>');
         }
         prizeLength++;
     }
-    $(".zjmd").css("height",prizeLength+1+"rem")
+    $(".zjmd").css("height",prizeLength*0.8+1+"rem")
 
     $("#totalJoin").html("参加抽奖人数：【"+totalJoin+"】")
 
@@ -255,7 +256,7 @@ function stop() {
 
 //确认号码
 $('#btnqr').on('click', function () {
-    $("#"+currentPrize+Number(runTimes)).html($(".num").html())
+    $("#"+currentPrizeId+Number(runTimes)).html($(".num").html())
 
     //lottery_nums[$.inArray(lottery_nums[num], lottery_nums)] = "";
     //usernames[$.inArray(usernames[num], usernames)] = "";
@@ -307,7 +308,7 @@ $('#btnqr').on('click', function () {
             if(i==(totalLevel-(alreadyLevel+1))){
                 currentPrize=prizes[i].prize_name
                 $("#prizename").html(currentPrize);
-                $(".prize").css("height",Number(currentPrize.length+0.5)+"rem")
+                $(".prize").css("height",Number(currentPrize.replace("(","").replace(")","").replace(" ","").length+0.5)+"rem")
                 levelNum=prizes[i].prize_count
                 currentPrizeId=prizes[i].id
             }

@@ -4,6 +4,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,11 +17,18 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+    private static String prefix;
+    @Value("${visit.prefix}")
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl(prefix+"/login");
         shiroFilterFactoryBean.setSuccessUrl("/main.html");
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();

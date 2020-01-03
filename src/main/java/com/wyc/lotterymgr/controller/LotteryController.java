@@ -33,16 +33,23 @@ public class LotteryController {
 
     private static String port;
 
-    @Value("${server.port}")
+    @Value("${visit.port}")
     public void setPort(String port) {
         this.port = port;
     }
 
     private static String ip;
 
-    @Value("${server.ip}")
+    @Value("${visit.ip}")
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    private static String prefix;
+
+    @Value("${visit.prefix}")
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
 
@@ -84,13 +91,13 @@ public class LotteryController {
 
     @GetMapping("/getQRCode/{id}/{lottery_name}")
     public void getQRCode(@PathVariable("id") String lottery_id,@PathVariable("lottery_name") String lottery_name, HttpServletResponse response) throws Exception {
-        String url = "http://"+ip+":"+port+"/LotteryMgr/LotteryUser.html?lottery_id="+lottery_id+"&lottery_name="+ URLEncoder.encode(URLEncoder.encode(lottery_name, "utf-8"));
+        String url = "http://"+ip+":"+port+prefix+"/LotteryMgr/LotteryUser.html?lottery_id="+lottery_id+"&lottery_name="+ URLEncoder.encode(URLEncoder.encode(lottery_name, "utf-8"));
         QRCodeUtil.creatRrCode(url,500,500,response);
     }
 
     @GetMapping("/getDecideQRCode/{id}/{prize_id}/{lottery_name}")
     public void getDecideQRCode(@PathVariable("id") String lottery_id,@PathVariable("prize_id") String prize_id,@PathVariable("lottery_name") String lottery_name, HttpServletResponse response) throws Exception {
-        String url = "http://"+ip+":"+port+"/LotteryMgr/LotteryUser.html?lottery_id="+lottery_id+"&prize_id="+prize_id+"&lottery_name="+ URLEncoder.encode(URLEncoder.encode(lottery_name, "utf-8"));
+        String url = "http://"+ip+":"+port+prefix+"/LotteryMgr/LotteryUser.html?lottery_id="+lottery_id+"&prize_id="+prize_id+"&lottery_name="+ URLEncoder.encode(URLEncoder.encode(lottery_name, "utf-8"));
         QRCodeUtil.creatRrCode(url,500,500,response);
     }
 
