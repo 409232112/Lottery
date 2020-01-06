@@ -313,4 +313,14 @@ public class LotteryServiceImpl implements ILotteryService {
     public void setUnBlack(Map param){
         lotteryDao.setUnBlack(param);
     }
+
+    @Override
+    public String CheckJoinEnd(String lotteryId){
+        return lotteryDao.CheckJoinEnd(lotteryId);
+    }
+
+    @Override
+    public void updateJoinEnd(String lotteryId){
+        lotteryDao.updateJoinEnd(lotteryId);
+    }
 }

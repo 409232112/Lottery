@@ -59,4 +59,9 @@ public interface ILotteryService extends IBaseService {
     void setBlack(Map param);
 
     void setUnBlack(Map param);
+
+    String CheckJoinEnd(String lotteryId);
+
+
+    void updateJoinEnd(String lotteryId);
 }

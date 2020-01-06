@@ -50,6 +50,7 @@ public class ShiroConfig {
         
         filterChainDefinitionMap.put("/LotteryMgr/LotteryUser.html", "anon");
         filterChainDefinitionMap.put("/LotteryMgr/lottery/LotteryUser", "anon");
+        filterChainDefinitionMap.put("/LotteryMgr/lottery/CheckJoinEnd", "anon");
         filterChainDefinitionMap.put("/LotteryMgr/lottery/lotteryData/**","anon");
         filterChainDefinitionMap.put("/LotteryMgr/css/**", "anon");
         filterChainDefinitionMap.put("/LotteryMgr/js/**", "anon");

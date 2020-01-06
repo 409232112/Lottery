@@ -2,17 +2,17 @@ server:
   port: 9999
   servlet:
     session:
-      timeout: 3600
+      timeout: 43200
 
 visit:
-  prefix: /lottery
-  port:
-  ip: www.wangyuanyuan.site
+  prefix:
+  port: 9999
+  ip: www.yuanyuanlian.cn
 
 spring:
   datasource:
     username: root
-    password: root123
+    password: Root123@
     url: jdbc:mysql://127.0.0.1:3306/lottery?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
 

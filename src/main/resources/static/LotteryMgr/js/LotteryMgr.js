@@ -56,6 +56,7 @@
             $('.showLotteryPage').linkbutton({plain:true,iconCls:"icon-standard-medal-gold-1"});
             $('.showQRCode').linkbutton({plain:true,iconCls:"icon-standard-code"});
             $('.resetLottery').linkbutton({plain:true,iconCls:"icon-standard-arrow-undo"});
+            $('.joinEnd').linkbutton({plain:true,iconCls:"icon-standard-wrench"});
         }
     })
 
@@ -142,6 +143,12 @@ function handle(val,row,index){
         '<a class="showLotteryPage" onclick="showLotteryPage(\''+row.id+'\',\''+row.prize_total_count+'\')">打开抽奖页面</a>' +
         '<a class="showQRCode" onclick="showQRCode(\''+row.id+'\',\''+row.lottery_name+'\')">查看邀请二维码</a>' +
         '<a class="resetLottery" onclick="resetLottery(\''+row.id+'\')">重置抽奖</a>'
+
+    if(row.join_end=="1"){
+        btn+='<a class="joinEnd" onclick="joinEnd(\''+row.id+'\')">开启报名</a>'
+    }else{
+        btn+='<a class="joinEnd" onclick="joinEnd(\''+row.id+'\')">关闭报名</a>'
+    }
     return btn;
 }
 
@@ -214,6 +221,18 @@ function resetLottery(id){
                     message.error(result.message)
                 }
             });
+        }
+    });
+}
+
+function joinEnd(id){
+    $.get('lottery/updateJoinEnd/'+id,function(result){
+        var result = eval('('+result+')');
+        if(result.code=="0"){
+            message.info(result.message)
+            grid.reloadGrid("lottery_grid")
+        }else{
+            message.error(result.message)
         }
     });
 }

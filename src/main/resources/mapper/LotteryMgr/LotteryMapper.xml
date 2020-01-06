@@ -37,7 +37,7 @@
 
     <select id="find" resultType="java.util.HashMap">
         select
-            a.id,a.lottery_name,a.lottery_date,a.lottery_address,a.total_join,IFNULL(b.prize_total_count,0) prize_total_count,
+            a.id,a.lottery_name,a.lottery_date,a.lottery_address,a.total_join,IFNULL(b.prize_total_count,0) prize_total_count,a.join_end,
             case a.current_prize
             when 'no_start' then '未开始'
             when 'end' then '已结束'
@@ -363,6 +363,23 @@
         order by lottery_num
     </select>
 
+    <select id="CheckJoinEnd"   resultType="java.lang.String">
+        select join_end from t_lottery  where id=#{lotteryId}
+    </select>
+
+
+    <update id="updateJoinEnd" >
+    UPDATE
+      t_lottery
+    SET
+      join_end = (
+        select join_end from (
+            select case join_end when 1 then 0 else 1 end as join_end from t_lottery where id = #{lotteryId}
+          ) a
+      )
+    WHERE
+	  id = #{lotteryId}
+    </update>
 
 
 </mapper>

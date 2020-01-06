@@ -96,6 +96,10 @@ public interface LotteryDao extends BaseDao {
 
     List<String> selectBlack(String lotteryId);
 
+    String CheckJoinEnd(String lotteryId);
+
+    void updateJoinEnd(String lotteryId);
+
 
 
 }

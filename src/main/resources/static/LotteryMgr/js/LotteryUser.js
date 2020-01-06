@@ -1,11 +1,7 @@
 $(function(){
     var lottery_name = decodeURI(getQueryString("lottery_name"))
-
     $("#lottery_name").html("欢迎参加"+lottery_name)
-
-    $("#btn_submit").click(function(){
-        submit()
-    });
+    checkJoinEnd()
 })
 
 function submit(){
@@ -35,5 +31,24 @@ function submit(){
             }
         });
     }
+}
 
+function checkJoinEnd(){
+    var lottery_id = getQueryString("lottery_id")
+    $.get('lottery/CheckJoinEnd?lotteryId='+lottery_id,function(result){
+        var result = eval('('+result+')');
+        if(result.code=="0"){
+            var is_end = result.data.end;
+            if(is_end=="1"){
+                alert("抽奖报名已经结束！")
+                $("#btn_submit").click(function(){
+                    alert("抽奖报名已经结束！")
+                });
+            }else{
+                $("#btn_submit").click(function(){
+                    submit()
+                });
+            }
+        }
+    });
 }

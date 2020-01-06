@@ -272,4 +272,17 @@ public class LotteryController {
         lotteryService.setUnBlack(param);
         return CommonUtility.constructResultJson("0","操作成功！");
     }
+
+    @GetMapping("/CheckJoinEnd")
+    public String CheckJoinEnd(@RequestParam("lotteryId") String lotteryId) throws BaseException{
+        Map retData = new HashMap();
+        retData.put("end", lotteryService.CheckJoinEnd(lotteryId));
+        return CommonUtility.constructResultJson("0","操作成功！",retData);
+    }
+
+    @GetMapping("/updateJoinEnd/{lotteryId}")
+    public String updateJoinEnd(@PathVariable("lotteryId") String lotteryId) throws BaseException{
+        lotteryService.updateJoinEnd(lotteryId);
+        return CommonUtility.constructResultJson("0","操作成功！");
+    }
 }
